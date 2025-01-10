@@ -1,0 +1,30 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+# Step 1: Checkout the code
+- task: Checkout@1
+  displayName: 'Checkout Code'
+
+# Step 2: Pull and Run Trivy Scan
+- script: |
+    # Set the image to scan
+    IMAGE_NAME="ghcr.io/runwhen-contrib/codecollection-devtools:0.0.7"
+    
+    # Run Trivy scan
+    docker run --rm \
+      -v $(System.DefaultWorkingDirectory):/root/.cache/ \
+      aquasec/trivy:latest \
+      image ${IMAGE_NAME}
+  displayName: 'Run Trivy Scan'
+
+# Step 3: Publish Trivy Scan Results
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(System.DefaultWorkingDirectory)'
+    artifactName: 'trivy-scan-results'
+    publishLocation: 'pipeline'
+  displayName: 'Publish Trivy Scan Results'
