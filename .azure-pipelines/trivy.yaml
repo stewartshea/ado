@@ -6,9 +6,6 @@ pool:
 
 
 steps:
-# Step 1: Checkout the code
-- task: Checkout@1
-  displayName: 'Checkout Code'
 
 # Step 2: Pull and Run Trivy Scan
 - script: |
