@@ -5,11 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-# Step 1: Checkout the code
-- task: Checkout@1
-  displayName: 'Checkout Code'
-
-# Step 2: Pull and Run Trivy Scan
+# Step 1: Pull and Run Trivy Scan
 - script: |
     # Set the image to scan
     IMAGE_NAME="ghcr.io/runwhen-contrib/codecollection-devtools:0.0.7"
@@ -21,7 +17,7 @@ steps:
       image ${IMAGE_NAME}
   displayName: 'Run Trivy Scan'
 
-# Step 3: Publish Trivy Scan Results
+# Step 2: Publish Trivy Scan Results
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(System.DefaultWorkingDirectory)'
